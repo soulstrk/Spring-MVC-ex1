@@ -17,5 +17,6 @@
 	조회수 : ${vo.hit }<br>
 	<a href="update?num=${vo.num }">수정하기</a>
 	<a href="delete?num=${vo.num }">삭제하기</a>
+	<a href="<c:url value='boardlist?spageNum=${pageNum }'/>">이전으로</a>
 </body>
 </html>

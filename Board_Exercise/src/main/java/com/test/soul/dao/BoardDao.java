@@ -19,12 +19,12 @@ public class BoardDao {
 		return session.insert(NAMESPACE+"insert", vo);
 	}
 	
-	public List<GuestBoardVo> getList(Map<String, Integer> map){
+	public List<GuestBoardVo> getList(Map map){
 		return session.selectList(NAMESPACE+"getList", map);
 	}
 	
-	public int getCount() {
-		return session.selectOne(NAMESPACE+"getCount");
+	public int getCount(Map map) {
+		return session.selectOne(NAMESPACE+"getCount", map);
 	}
 	
 	public GuestBoardVo detail(int num) {

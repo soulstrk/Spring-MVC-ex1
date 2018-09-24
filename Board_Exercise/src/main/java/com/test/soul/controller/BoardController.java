@@ -66,7 +66,7 @@ public class BoardController {
 	
 	// 페이징처리를 포함한 게시판 리스트 호출
 	@RequestMapping(value="/boardlist", method=RequestMethod.GET)
-	public ModelAndView boardList(String spageNum) {
+	public ModelAndView boardList(String spageNum, String title, String writer, String content, String search) {
 		int pageNum = 0;
 		if(spageNum != null) {
 			pageNum = Integer.parseInt(spageNum);
@@ -74,7 +74,7 @@ public class BoardController {
 			pageNum = 1;
 		}
 		
-		Map map = service.getList(pageNum); //서비스 호출
+		Map map = service.getList(pageNum, title, content, writer, search); //서비스 호출
 		
 		//ModelAndView에 필요한 정보 담아서 보내기
 		ModelAndView mv = new ModelAndView("boardlist");
@@ -83,6 +83,10 @@ public class BoardController {
 		mv.addObject("startRow", map.get("startRow"));
 		mv.addObject("endRow", map.get("endRow"));
 		mv.addObject("maxPage", map.get("maxPage"));
+		mv.addObject("nowPageNum", pageNum);
+		mv.addObject("title", title);
+		mv.addObject("content", content);
+		mv.addObject("writer", writer);
 		mv.addObject("list", map.get("list"));
 		return mv;
 	}

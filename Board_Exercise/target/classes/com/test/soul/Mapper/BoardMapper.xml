@@ -19,18 +19,40 @@
 	
 	<!-- R -->
 	<select id="getList" parameterType="map" resultType="com.test.soul.vo.GuestBoardVo">
-	<![CDATA[ 
 		select num,writer,title,content,hit from
 		(select AA.*, rownum rnum from 
-		(select * from guestboard order by num desc) AA)
-		 where rnum >= #{startRow} and rnum <= #{endRow}
-	]]>
+		(select * from guestboard 
+		 <where>
+		 <if test="title != null">
+		 	 title LIKE '%' || #{search} || '%'
+		 </if>
+		 <if test="writer != null">
+		 	OR writer LIKE '%' || #{search} || '%'
+		 </if>
+		 <if test="content != null">
+		 	OR content LIKE '%' || #{search} || '%'
+		 </if>
+		 </where>
+		order by num desc) AA)
+		where (rnum <![CDATA[ >= ]]> #{startRow} and rnum <![CDATA[ <= ]]> #{endRow})
+		 
 	</select>
 	<select id="detail" resultType="com.test.soul.vo.GuestBoardVo" parameterType="int">
 		select * from guestboard where num = #{value}
 	</select>
-	<select id="getCount" resultType="int">
+	<select id="getCount" resultType="int" parameterType="map">
 		select count(num) from guestboard
+		<where>
+		 <if test="title != null">
+		 	 title LIKE '%' || #{search} || '%'
+		 </if>
+		 <if test="writer != null">
+		 	OR writer LIKE '%' || #{search} || '%'
+		 </if>
+		 <if test="content != null">
+		 	OR content LIKE '%' || #{search} || '%'
+		 </if>
+		 </where>
 	</select>
 	
 	<!-- D -->

@@ -19,9 +19,13 @@ public class BoardService {
 		return dao.insert(vo);
 	}
 	
-	public Map getList(int pageNum){
+	public Map getList(int pageNum, String title, String content, String writer, String search){
 		Map map = new HashMap();
-		map = calPageRow(pageNum);
+		map.put("title", title);
+		map.put("content", content);
+		map.put("writer", writer);
+		map.put("search", search);
+		map = calPageRow(pageNum, map); // Request된 PageNum으로 페이징처리에 필요한 연산
 		List<GuestBoardVo> list = dao.getList(map);
 		map.put("list", list);
 		return map;
@@ -41,17 +45,16 @@ public class BoardService {
 	}
 	
 	
-	public Map calPageRow(int pageNum){
+	public Map calPageRow(int pageNum, Map map){
 		int startRow = pageNum * 10 - 9;
 		int endRow = startRow + 9;
 		int startPage = ((pageNum-1)/10+1) * 10 - 9;
 		int endPage = startPage + 9;
-		int maxCount = dao.getCount(); //총 게시글 수
+		int maxCount = dao.getCount(map); //총 게시글 수
 		int maxPage = (maxCount-1)/10 +1; //총 페이지
 		if(maxPage < endPage) {
 			endPage = maxPage;
 		}
-		Map map = new HashMap();
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
 		map.put("startPage", startPage);

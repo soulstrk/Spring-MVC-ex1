@@ -22,14 +22,16 @@ public class DetailAndUpdateController {
 	
 	//글 상세 보기
 	@RequestMapping(value="detail", method=RequestMethod.GET)
-	public ModelAndView detail(int num) {
+	public ModelAndView detail(int num, int spageNum) {
 		ModelAndView mv = new ModelAndView("detail");
+		mv.addObject("pageNum", spageNum);
 		return mv;
 	}
 	
 	@RequestMapping("update")
-	public ModelAndView update(int num) {
+	public ModelAndView update(int num, int spageNum) {
 		ModelAndView mv = new ModelAndView("update");
+		mv.addObject("pageNum", spageNum);
 		return mv;
 	}
 }
