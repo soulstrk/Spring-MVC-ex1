@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+#abc {
+	text-align: center;
+}
+
+#btn1 {
+	position: relative;
+	top: -60px;
+}

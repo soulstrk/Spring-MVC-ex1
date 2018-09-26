@@ -7,13 +7,20 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.test.soul.dao.BoardCommDao;
 import com.test.soul.dao.BoardDao;
+import com.test.soul.ob.Calculator;
+import com.test.soul.vo.GuestBoardCommVo;
 import com.test.soul.vo.GuestBoardVo;
 
 @Service
 public class BoardService {
 	@Autowired
 	private BoardDao dao;
+	@Autowired
+	private BoardCommDao commDao;
+	@Autowired
+	private Calculator cal;
 	
 	public int insert(GuestBoardVo vo) {
 		return dao.insert(vo);
@@ -25,7 +32,7 @@ public class BoardService {
 		map.put("content", content);
 		map.put("writer", writer);
 		map.put("search", search);
-		map = calPageRow(pageNum, map); // RequestµÈ PageNumÀ¸·Î ÆäÀÌÂ¡Ã³¸®¿¡ ÇÊ¿äÇÑ ¿¬»ê
+		map = cal.calPageRow(pageNum, map); // Requestï¿½ï¿½ PageNumï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Â¡Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		List<GuestBoardVo> list = dao.getList(map);
 		map.put("list", list);
 		return map;
@@ -44,22 +51,17 @@ public class BoardService {
 		return dao.delete(num);
 	}
 	
-	
-	public Map calPageRow(int pageNum, Map map){
-		int startRow = pageNum * 10 - 9;
-		int endRow = startRow + 9;
-		int startPage = ((pageNum-1)/10+1) * 10 - 9;
-		int endPage = startPage + 9;
-		int maxCount = dao.getCount(map); //ÃÑ °Ô½Ã±Û ¼ö
-		int maxPage = (maxCount-1)/10 +1; //ÃÑ ÆäÀÌÁö
-		if(maxPage < endPage) {
-			endPage = maxPage;
-		}
-		map.put("startRow", startRow);
-		map.put("endRow", endRow);
-		map.put("startPage", startPage);
-		map.put("endPage", endPage);
-		map.put("maxPage", maxPage);
-		return map;
+	public int commInsert(GuestBoardCommVo vo) {
+		return commDao.insert(vo);
 	}
+	
+	public int commDelete(int cnum) {
+		return commDao.delete(cnum);
+	}
+	
+	public List<GuestBoardCommVo> commGetList(int mnum){
+		return commDao.getList(mnum);
+	}
+	
+	
 }

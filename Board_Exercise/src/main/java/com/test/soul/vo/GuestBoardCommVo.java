@@ -6,20 +6,18 @@ public class GuestBoardCommVo {
 	private String writer;
 	private String content;
 	private int pwd;
-	private int recommend;
 	
 	public GuestBoardCommVo() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public GuestBoardCommVo(int cnum, int mnum, String writer, String content, int pwd, int recommend) {
+	public GuestBoardCommVo(int cnum, int mnum, String writer, String content, int pwd) {
 		super();
 		this.cnum = cnum;
 		this.mnum = mnum;
 		this.writer = writer;
 		this.content = content;
 		this.pwd = pwd;
-		this.recommend = recommend;
 	}
 
 	public int getCnum() {
@@ -62,18 +60,11 @@ public class GuestBoardCommVo {
 		this.pwd = pwd;
 	}
 
-	public int getRecommend() {
-		return recommend;
-	}
-
-	public void setRecommend(int recommend) {
-		this.recommend = recommend;
-	}
 
 	@Override
 	public String toString() {
 		return "GuestBoardCommVo [cnum=" + cnum + ", mnum=" + mnum + ", writer=" + writer + ", content=" + content
-				+ ", pwd=" + pwd + ", recommend=" + recommend + "]";
+				+ ", pwd=" + pwd + ", recommend=" + "]";
 	}
 	
 	

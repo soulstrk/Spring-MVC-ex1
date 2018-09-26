@@ -19,29 +19,29 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 	
-	// ¸ÞÀÎ  --> °Ô½ÃÆÇ
+	// ï¿½ï¿½ï¿½ï¿½  --> ï¿½Ô½ï¿½ï¿½ï¿½
 	@RequestMapping("/board")
 	public String toBoardList() {
 		return "boardlist";
 	}
 	
-	// ±Û¾²±â ÆäÀÌÁö·Î ÀÌµ¿
+	// ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 	@RequestMapping("/boardInsert")
 	public String toBoardInsert() {
 		return "boardInsert";
 	}
 	
-	// ±Û µî·Ï ¼öÇà
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/boardInsert", method=RequestMethod.POST)
 	public String boardInsert(GuestBoardVo vo, RedirectAttributes ra) {
 		int n = service.insert(vo);
 		if(n>0) {
-		ra.addFlashAttribute("msg", "±Ûµî·Ï¼º°ø!");
+		ra.addFlashAttribute("msg", "ï¿½Ûµï¿½Ï¼ï¿½ï¿½ï¿½!");
 		}
 		return "redirect:/boardlist";
 	}
 	
-	/*//±Û »ó¼¼ º¸±â
+	/*//ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="detail", method=RequestMethod.GET)
 	public ModelAndView detail(int num, String update) {
 		ModelAndView mv = null;
@@ -55,7 +55,7 @@ public class BoardController {
 		return mv;
 	}*/
 	
-	// ±Û ¼öÁ¤
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="update", method=RequestMethod.POST)
 	public String update(GuestBoardVo vo, RedirectAttributes ra) {
 		ra.addFlashAttribute("upMsg", "success");
@@ -64,7 +64,7 @@ public class BoardController {
 		return "redirect:/boardlist";
 	}
 	
-	// ÆäÀÌÂ¡Ã³¸®¸¦ Æ÷ÇÔÇÑ °Ô½ÃÆÇ ¸®½ºÆ® È£Ãâ
+	// ï¿½ï¿½ï¿½ï¿½Â¡Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® È£ï¿½ï¿½
 	@RequestMapping(value="/boardlist", method=RequestMethod.GET)
 	public ModelAndView boardList(String spageNum, String title, String writer, String content, String search) {
 		int pageNum = 0;
@@ -74,9 +74,9 @@ public class BoardController {
 			pageNum = 1;
 		}
 		
-		Map map = service.getList(pageNum, title, content, writer, search); //¼­ºñ½º È£Ãâ
+		Map map = service.getList(pageNum, title, content, writer, search); //ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
 		
-		//ModelAndView¿¡ ÇÊ¿äÇÑ Á¤º¸ ´ã¾Æ¼­ º¸³»±â
+		//ModelAndViewï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ModelAndView mv = new ModelAndView("boardlist");
 		mv.addObject("startPage", map.get("startPage"));
 		mv.addObject("endPage", map.get("endPage"));
@@ -87,11 +87,12 @@ public class BoardController {
 		mv.addObject("title", title);
 		mv.addObject("content", content);
 		mv.addObject("writer", writer);
+		mv.addObject("search", search);
 		mv.addObject("list", map.get("list"));
 		return mv;
 	}
 	
-	// ±Û »èÁ¦
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("delete")
 	public String delete(int num) {
 		int n = service.delete(num);
