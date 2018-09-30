@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.test.soul.Mapper.Board2Mapper">
+ <sql id="search">
+ 	<if test="field != null and field != ''">
+ 		where ${field} like '%' || #{keyword} || '%'
+ 	</if>
+ </sql>
+ 	<insert id="insert" parameterType="com.test.soul.vo.Board2Vo">
+ 		insert into myboard
+ 		values(myboard_seq.nextval,#{writer},#{title},#{content},0,sysdate)
+ 	</insert>
+ 	<select id="getCount" resultType="int" parameterType="hashmap">
+ 		select NVL(count(*),0) cnt from myboard
+ 		<include refid="search"/>
+ 	</select>
+ 	<select id="list" parameterType="hashmap" resultType="com.test.soul.vo.Board2Vo">
+	   select * from
+	   (
+		select AA.*,rownum rnum from
+		 (
+		 select * from myboard <include refid="search"/> 
+		 order by num desc
+		 )AA
+	   )where rnum <![CDATA[ >= ]]> #{startRow} and
+	    rnum <![CDATA[ <= ]]> #{endRow}  	
+ 	</select>
+ 	<update id="update" parameterType="hashmap">
+ 		update myboard set writer = #{writer}, title = #{title}, content = #{content} where num = #{num}
+ 	</update>
+ 	<delete id="delete" parameterType="int">
+ 		delete from myboard where num = #{value}
+ 	</delete>
+ 	<select id="getOne" parameterType="int" resultType="com.test.soul.vo.Board2Vo">
+ 		select * from myboard where num = #{value}
+ 	</select>
+ 	<update id="addHit" parameterType="int">
+ 		update myboard set hit = hit+1 where num = #{value}
+ 	</update>
+ 	<!-- 이전글 -->
+ 	<select id="prev" parameterType="int" resultType="com.test.soul.vo.Board2Vo">
+ 	select * from
+ 		(
+ 		select * from myboard where num <![CDATA[<]]> #{value} order by num desc
+ 		)AA
+    where rownum = 1
+ 	</select>
+ 	<!-- 다음글 -->
+ 	<select id="next" parameterType="int" resultType="com.test.soul.vo.Board2Vo">
+ 	select * from
+ 		(
+ 		select * from myboard where num <![CDATA[ > ]]> #{value} order by num asc
+ 		)AA
+    where rownum = 1
+ 	</select>
+ </mapper>
